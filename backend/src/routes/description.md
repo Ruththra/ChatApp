@@ -1,0 +1,3 @@
+# Why a Routes Folder is Needed in React Projects
+
+The `routes` folder organizes all route-related logic and files in a React project. It helps manage navigation, API endpoints, and server-side routing in a structured way. By separating route definitions, the codebase becomes easier to maintain, scale, and debug. This approach also improves collaboration among developers by providing a clear location for route management.

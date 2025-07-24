@@ -1,0 +1,26 @@
+//This file is use to create a Zustand store for managing authentication state in a React application.
+
+import {create} from 'zustand';
+import {axiosInstance} from '../lib/axios.js'; // Import the axios instance for API calls
+
+export const useAuthStore = create((set) => ({
+    authUser: null,
+    isSigningUp: false,
+    isLoggingIn: false,
+    isUpdatingProfile: false,
+
+    isCheckingAuth: true,
+
+    checkAuth : async () => {
+        try {
+            const res = await axiosInstance.get('/auth/check');
+
+            set({authUser: res.data});
+        } catch (error) {
+            console.error('Error in checkAuth:', error);
+            set({authUser: null});
+        } finally {
+            set({isCheckingAuth: false});
+        }
+    }
+}));
