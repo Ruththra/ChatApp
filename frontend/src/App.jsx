@@ -33,7 +33,7 @@ function App() {
   )
 
   return (
-    <div className='text-red-500'>
+    <div className='text-500'>
       <Navbar />
       <Routes>
         <Route path='/' element={authUser ? <HomePage /> : <Navigate to="/login" />} />
