@@ -10,6 +10,7 @@ import ProfilePage from './pages/ProfilePage.jsx'
 import { Routes, Route, Navigate} from 'react-router-dom'
 import {useAuthStore} from './store/useAuthStore.js'
 import { RingLoader } from 'react-spinners'
+import {Toaster} from 'react-hot-toast'
 
 function App() {
   const {authUser, checkAuth, isCheckingAuth} = useAuthStore();
@@ -35,6 +36,7 @@ function App() {
   return (
     <div className='text-500'>
       <Navbar />
+
       <Routes>
         <Route path='/' element={authUser ? <HomePage /> : <Navigate to="/login" />} />
         <Route path='/signup' element={!authUser ? <SignUpPage /> : <Navigate to="/" />} />
@@ -42,6 +44,9 @@ function App() {
         <Route path='/settings' element={<SettingsPage />} />
         <Route path='/profile' element={authUser ? <ProfilePage /> : <Navigate to="/login" />} />
       </Routes>
+      
+      <Toaster />
+
     </div>
   )
 }

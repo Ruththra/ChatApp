@@ -3,6 +3,7 @@ import {useAuthStore} from "../store/useAuthStore.js";
 import {MessageSquare, User, Mail, Lock, Eye, EyeOff, Loader2} from "lucide-react";
 import {Link} from "react-router-dom"
 import AuthImagePattern from "../components/AuthImagePattern.jsx";
+import toast from "react-hot-toast";
 
 const SignUpPage = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -14,9 +15,22 @@ const SignUpPage = () => {
 
   const {signUp, isSigningUp} = useAuthStore();
 
-  const validateForm = () => {}
+  const validateForm = () => {
+    if (!formData.fullName.trim()) return toast.error("Full name is required");
+    if (!formData.email.trim()) return toast.error("Email is required");
+    if (!/\S+@\S+\.\S+/.test(formData.email)) return toast.error("Invalid email format");
+    if (!formData.password.trim()) return toast.error("Password is required");
+    if (formData.password.length < 6) return toast.error("Password must be at least 6 characters");
 
-  const handleSubmit = async (e) => {}
+    return true; 
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    const success = validateForm();
+    if (success === true) signUp(formData);
+  }
 
   return (
     <div className="min-h-screen grid lg:grid-cols-2">
@@ -98,7 +112,7 @@ const SignUpPage = () => {
               </div>
             </div>
 
-                <button type="button" className="btn btn-primary w-full" disabled={isSigningUp}>
+                <button type="button" className="btn btn-primary w-full" disabled={isSigningUp} onClick={handleSubmit}>
                   {isSigningUp ? (
                     <>
                       <Loader2 className="animate-spin size-5" />
