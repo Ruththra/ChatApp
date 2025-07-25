@@ -35,7 +35,7 @@ export const useAuthStore = create((set) => ({
             set({authUser: res.data});
         } catch (error) {
             console.error('Error in signUp:', error);
-            toast.error("Failed to create account");
+            toast.error(error.response?.data?.message || "Failed to sign up");
         } finally {
             set({isSigningUp: false});
         }
@@ -48,7 +48,22 @@ export const useAuthStore = create((set) => ({
             toast.success("Logged out successfully");
         } catch (error) {
             console.error('Error in logout:', error);
-            toast.error("Failed to log out");
+            toast.error(error.response?.data?.message || "Failed to log out");
         }
-    }
+    },
+
+    login: async (data) => {
+        set({ isLoggingIn: true });
+        try {
+        const res = await axiosInstance.post("/auth/login", data);
+        set({ authUser: res.data });
+        toast.success("Logged in successfully");
+
+        get().connectSocket();
+        } catch (error) {
+        toast.error(error.response.data.message);
+        } finally {
+        set({ isLoggingIn: false });
+        }
+  },
 }));
