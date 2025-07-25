@@ -6,17 +6,25 @@ import {generateToken} from "../lib/utils.js"
 export const signup = async (req, res) => {
   const { name, email, password } = req.body;
 
+  // console.log("backend .. Signup data:", req.body);
+  // console.log(req.body.name)
   try {
-
+    // console.log("Before validation checks");
+    // console.log("Name:", name, "Email:", email, "Password:", password)
     if (!name || !email || !password) {
+      // console.log("Inside validation checks");
       return res.status(400).json({message :"Please fill all the fields"});
     }
-
+    // console.log("After validation checks");
     if (password.length < 6) {
       return res.status(400).json({message :"Password must be at least 6 characters long"});
     }
-    
+
+    // console.log("Before await for user check");
     const user = await User.findOne({ email });
+    // console.log("After await for user check");
+
+
     if (user) {
       return res.status(400).json({message :"User already exists"});
     }
