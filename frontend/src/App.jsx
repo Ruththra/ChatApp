@@ -9,12 +9,13 @@ import ProfilePage from './pages/ProfilePage.jsx'
 
 import { Routes, Route, Navigate} from 'react-router-dom'
 import {useAuthStore} from './store/useAuthStore.js'
+import { useThemeStore } from './store/useThemeStore.js'
 import { RingLoader } from 'react-spinners'
 import {Toaster} from 'react-hot-toast'
 
 function App() {
   const {authUser, checkAuth, isCheckingAuth} = useAuthStore();
-
+  const {theme} = useThemeStore();
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
@@ -34,7 +35,7 @@ function App() {
   )
 
   return (
-    <div className='text-500'>
+    <div className='text-500' data-theme={theme}>
       <Navbar />
 
       <Routes>
