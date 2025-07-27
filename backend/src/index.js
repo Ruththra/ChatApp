@@ -12,8 +12,13 @@ dotenv.config(); // Load environment variables from .env file
 const app = express();
 const PORT = process.env.PORT;
 
-app.use(express.json()); // Middleware to parse JSON requests
+app.use(express.json({ limit: '10mb' })); // or higher if needed
+app.use(express.urlencoded({ limit: '10mb', extended: true }));
+// app.use(express.json()); // Middleware to parse JSON requests
+
+
 app.use(cookieParser()); // Middleware to parse cookies
+
 app.use(cors({
   origin: "http://localhost:5173",
   credentials: true
@@ -22,6 +27,7 @@ app.use(cors({
 
 app.use('/api/auth', authRoutes);
 app.use('/api/message', messageRoutes);
+
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
